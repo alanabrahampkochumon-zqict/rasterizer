@@ -1,7 +1,7 @@
 include_guard()
 option(ASAN "Enable ASan" OFF) # Option to enable ASAN
 
-add_library(ProjectASan INTERFACE) # Used for linking ASan
+add_library(${PROJECT_NAME}-ASan INTERFACE) # Used for linking ASan
 
 if (ASAN)
     # Enables Address Sanitizer for all the projects globally.

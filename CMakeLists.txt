@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
-project(GenericProject LANGUAGES CXX)
+project(Rasterizer LANGUAGES CXX)
 enable_testing()
-
 
 # Turn on solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -23,7 +22,7 @@ endif ()
 # Interprocedural Optimization
 include(CheckIPOSupported)
 check_ipo_supported(RESULT IPO_SUPPORT)
-if(IPO_SUPPORTED)
+if (IPO_SUPPORTED)
     message(STATUS "Turning on Interprocedural Optimization")
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${IPO_SUPPORTED})
 endif ()
@@ -32,4 +31,4 @@ add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(benchmarks)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TestSuite)
+#set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TestSuite)
