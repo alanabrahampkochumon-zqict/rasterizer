@@ -61,7 +61,7 @@ namespace demo
                     // Vertex
                     auto vertexIterator = std::views::split(line, ' ') | std::views::drop(1);
                     fgm::Vec3<float> vertexData;
-                    std::size_t index = 0;
+                    size_t index = 0;
                     for (const auto token : vertexIterator)
                     {
                         float vertex{};
@@ -100,7 +100,7 @@ namespace demo
                         }
                     }
                     // TODO: Support concave shapes triangulation
-                    for (std::size_t i = 2; i < temp.size(); ++i)
+                    for (size_t i = 2; i < temp.size(); ++i)
                     {
                         // Note: -1 is subtracted since obj file uses 1-based indexing
                         // Clang on Linux throws class template deduction failed error without typename passed-in

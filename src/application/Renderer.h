@@ -27,7 +27,6 @@ namespace demo
 {
     constexpr auto EPSILON = 1e-6;
 
-
     struct BarycentricCoordinates
     {
         float alpha, beta, gamma;
@@ -35,7 +34,7 @@ namespace demo
 
     struct BoundingBox
     {
-        std::size_t top, left, right, bottom;
+        size_t top, left, right, bottom;
     };
 
     class Renderer
@@ -53,8 +52,8 @@ namespace demo
          * @param numColorChannels The number of color channels the renderer support. Eg: 4 -> RGBA
          */
         Renderer(const int w, const int h, const int numColorChannels)
-            : frameBuffer(new uint8_t[static_cast<std::size_t>(w * h * numColorChannels)]),
-              depthBuffer(new float[static_cast<std::size_t>(w * h)]),
+            : frameBuffer(new uint8_t[static_cast<size_t>(w * h * numColorChannels)]),
+              depthBuffer(new float[static_cast<size_t>(w * h)]),
               width(w),
               height(h),
               colorChannels(numColorChannels)
@@ -113,7 +112,7 @@ namespace demo
         {
             std::memset(frameBuffer, clearColor, static_cast<size_t>(width * height * colorChannels));
             // Clear the depth buffer
-            std::memset(depthBuffer, 0, static_cast<std::size_t>(width * height * 4));
+            std::memset(depthBuffer, 0, static_cast<size_t>(width * height * 4));
         }
 
         ~Renderer()
@@ -190,7 +189,7 @@ namespace demo
         }
 
         // bufferOffset must be a multiple of 4 since we need to put 4 channels per bufferOffset
-        inline void putPixel(std::size_t bufferOffset, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 0xff)
+        inline void putPixel(size_t bufferOffset, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 0xff)
         {
             if constexpr (std::endian::native == std::endian::big)
             {
@@ -233,10 +232,10 @@ namespace demo
         inline BoundingBox computeBoundingBox(const fgm::Vec2F& v0, const fgm::Vec2F& v1, const fgm::Vec2F& v2)
         {
             return BoundingBox{
-                .top    = static_cast<std::size_t>(std::min({ v0.y(), v1.y(), v2.y() })),
-                .left   = static_cast<std::size_t>(std::min({ v0.x(), v1.x(), v2.x() })),
-                .right  = static_cast<std::size_t>(std::max({ v0.x(), v1.x(), v2.x() })),
-                .bottom = static_cast<std::size_t>(std::max({ v0.y(), v1.y(), v2.y() })),
+                .top    = static_cast<size_t>(std::min({ v0.y(), v1.y(), v2.y() })),
+                .left   = static_cast<size_t>(std::min({ v0.x(), v1.x(), v2.x() })),
+                .right  = static_cast<size_t>(std::max({ v0.x(), v1.x(), v2.x() })),
+                .bottom = static_cast<size_t>(std::max({ v0.y(), v1.y(), v2.y() })),
             };
         }
 
@@ -288,11 +287,11 @@ namespace demo
             {
                 for (auto x = bb.left; x <= bb.right; ++x)
                 {
-                    const auto offset      = y * static_cast<std::size_t>(width) + x;
-                    const auto colorOffset = static_cast<std::size_t>(colorChannels) * offset;
+                    const auto offset      = y * static_cast<size_t>(width) + x;
+                    const auto colorOffset = static_cast<size_t>(colorChannels) * offset;
                     const auto point       = fgm::Vec2(static_cast<float>(x), static_cast<float>(y));
 
-                    if (offset > static_cast<std::size_t>(width * height))
+                    if (offset > static_cast<size_t>(width * height))
                     {
                         continue;
                     }
@@ -389,12 +388,12 @@ namespace demo
             //                    return proj;
             //                });
 
-            [[maybe_unused]] std::size_t i = 0;
+            [[maybe_unused]] size_t i = 0;
             for (const auto& index : mesh.indices)
             {
-                const auto i0 = static_cast<std::size_t>(index.x());
-                const auto i1 = static_cast<std::size_t>(index.y());
-                const auto i2 = static_cast<std::size_t>(index.z());
+                const auto i0 = static_cast<size_t>(index.x());
+                const auto i1 = static_cast<size_t>(index.y());
+                const auto i2 = static_cast<size_t>(index.z());
                 // FIXME: Test code
                 const auto faceColor = mesh.colors[i++];
                 renderTriangle(vertices[i0], vertices[i1], vertices[i2], faceColor.r(), faceColor.g(), faceColor.b(),

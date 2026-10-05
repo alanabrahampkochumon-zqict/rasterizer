@@ -30,10 +30,10 @@ namespace demo
 
 
     public:
-        Application(const std::string& appname, const std::string& version, const std::string& identifier)
+        Application(const std::string_view appName, const std::string_view version, const std::string_view identifier)
             : _renderer(_width, _height, _colorChannels)
         {
-            SDL_SetAppMetadata(appname.c_str(), version.c_str(), identifier.c_str());
+            SDL_SetAppMetadata(appName.data(), version.data(), identifier.data());
 
             if (!SDL_Init(SDL_INIT_VIDEO))
             {
@@ -42,7 +42,7 @@ namespace demo
             }
 
             // TODO: Make window resizeable
-            _window = SDL_CreateWindow(appname.c_str(), _width, _height, 0);
+            _window = SDL_CreateWindow(appName.data(), _width, _height, 0);
         }
 
 
