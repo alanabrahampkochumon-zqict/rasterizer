@@ -258,8 +258,13 @@ namespace demo
             //       |    \ \/    |
             //       |     \/     |
             //       --------(maxX, maxY)
-            const auto bb = computeBoundingBox(projV0, projV1, projV2);
+            auto bb = computeBoundingBox(projV0, projV1, projV2);
 
+            // Clip against screen bounds
+            bb.left = std::max(bb.left, 0ull);
+            bb.top = std::max(bb.top, 0ull);
+            bb.right = std::min(bb.right, static_cast<size_t>(width - 1));
+            bb.bottom = std::min(bb.bottom, static_cast<size_t>(height - 1));
 
 
             const auto triArea = (projV1 - projV0).cross(projV2 - projV1) * 0.5f;
@@ -278,6 +283,7 @@ namespace demo
             const auto bias0 = isTopLeft0 * EPSILON;
             const auto bias1 = isTopLeft1 * EPSILON;
             const auto bias2 = isTopLeft2 * EPSILON;
+
 
 
             // Looping in reverse order for better cache locality
