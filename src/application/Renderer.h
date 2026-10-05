@@ -12,11 +12,11 @@
 
 #include "Mesh.h"
 
-#include <fgm/Mat>
 #include <bit>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <fgm/Mat>
 #include <fgm/Vec>
 #include <iostream>
 #include <map>
@@ -57,9 +57,7 @@ namespace demo
               width(w),
               height(h),
               colorChannels(numColorChannels)
-        {
-            clearScreen();
-        }
+        { clearScreen(); }
 
         void renderLine(float ax, float ay, float bx, float by, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
         {
@@ -323,24 +321,6 @@ namespace demo
             }
         }
 
-        // Degree in Radians
-        // TODO: Move to library
-        fgm::Vec3F rotateY(const fgm::Vec3F& vertex, const float deg)
-        {
-            const auto s = std::sin(deg);
-            const auto c = std::cos(deg);
-            fgm::Vec3F vec{};
-
-            // [cos, 0, -sin]
-            // [0, 1, 0]
-            // [sin, 0, cos]
-            vec.x() = c * vertex.x() - s * vertex.z();
-            vec.y() = vertex.y();
-            vec.z() = s * vertex.x() + c * vertex.z();
-
-            return vec;
-        }
-
         fgm::Vec3F project(const fgm::Vec3F& vertex, const float focalLength)
         {
             fgm::Vec3F vec{};
@@ -357,8 +337,8 @@ namespace demo
         inline fgm::Vec3F perVertex(const fgm::Vec3F& vertex, const fgm::Vec3F& minVertexValues,
                                     const fgm::Vec3F& maxVertexValues, const float rotationDeg)
         {
-            const auto vec = rotateY(vertex, rotationDeg);
-            return toNDC(vec, minVertexValues, maxVertexValues);
+            const auto vec = fgm::Mat4F::makeRotationY(rotationDeg) * fgm::Vec4(vertex, 1.0f);
+            return toNDC(vec.swizzle<fgm::axis::X, fgm::axis::Y, fgm::axis::Z>(), minVertexValues, maxVertexValues);
         }
 
 
